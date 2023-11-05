@@ -1,42 +1,45 @@
 # IntegrityWatcher
-File Integrity Monitoring Project
-# File Integrity Monitoring Project
 
-This Python project allows you to monitor the integrity of files in a specified directory by creating a baseline of file hashes and continuously checking for changes or unauthorized file creations.
+**File Integrity Monitoring Project**
 
-## Overview
+IntegrityWatcher is a Python-based solution that empowers you to vigilantly monitor the integrity of files within a specified directory. By creating a baseline of file hashes, it continuously observes for unauthorized changes or new file creations.
 
-File integrity monitoring is a crucial aspect of cybersecurity. This project helps you:
+## Project Overview
 
-- Create a baseline of file hashes for files in the "Files" directory.
-- Continuously monitor files for changes, new file creations, or deletions.
-- Detect potential security breaches and unauthorized modifications to critical files.
+File integrity monitoring is a cornerstone of cybersecurity. The IntegrityWatcher project offers the following capabilities:
 
-## Project Details
+- **Baseline Creation**: Establish a secure foundation by computing SHA-512 hashes for files in the "Files" directory.
+- **Continuous Monitoring**: Vigilantly oversee files for changes, new file additions, or deletions.
+- **Security Breach Detection**: Swiftly identify potential security breaches or unauthorized file modifications.
 
-- **calculate_file_hash**: A function to calculate the SHA-512 hash of a file.
-- **erase_baseline_if_already_exists**: A function to delete the baseline file if it already exists.
-- **User Interaction**: The script prompts the user to choose between creating a new baseline or monitoring files with an existing baseline.
+## Key Features
 
-## Usage
-
-1. Choose 'A' to create a new baseline. This calculates the hashes of files and writes them to `baseline.txt`.
-2. Choose 'B' to start monitoring. The script reads the baseline data from `baseline.txt` and notifies you of any changes or new file creations in the "Files" directory.
-
-## Cybersecurity Implications
-
-File integrity monitoring can be used for:
-
-- Detecting unauthorized changes to system files.
-- Early intrusion detection.
-- Maintaining compliance with security standards and regulations.
-- Preventing data exfiltration.
-- Providing a log and alerting system for security incidents.
-- Facilitating forensic analysis in the event of a security breach.
+- **calculate_file_hash**: A robust function for meticulously computing the SHA-512 hash of a file.
+- **erase_baseline_if_already_exists**: A safeguard for erasing an existing baseline, ensuring a fresh start if needed.
+- **User Interaction**: A user-friendly interface offering options to create a new baseline or monitor files using an existing one.
 
 ## Usage
 
-You can run the Python script in your preferred environment. Make sure to adapt the file paths as needed for your specific setup.
+Experience the power of IntegrityWatcher with these straightforward steps:
+
+1. Choose 'A' to initiate the creation of a new baseline. This process computes file hashes and records them in `baseline.txt`.
+
+2. Opt for 'B' to begin monitoring. The script retrieves the baseline data from `baseline.txt` and promptly informs you of any file alterations or new additions in the "Files" directory.
+
+## Enhancing Cybersecurity
+
+IntegrityWatcher serves as a critical component of cybersecurity:
+
+- **Unauthorized Changes Detection**: Remain vigilant about system files to identify any unauthorized adjustments.
+- **Early Intrusion Detection**: Swiftly detect security breaches or unauthorized alterations.
+- **Compliance Assurance**: Align with security standards and regulations by preserving file integrity.
+- **Data Exfiltration Prevention**: Thwart unauthorized data access or exfiltration attempts.
+- **Logging and Alerting**: Generate logs and receive alerts about potential security incidents effortlessly.
+- **Forensic Analysis**: In the event of a security breach, leverage the baseline data and change history for comprehensive forensic analysis.
+
+## Quick Start
+
+Run the Python script in your preferred environment. Ensure that you customize file paths as needed to suit your specific setup:
 
 ```python
 fileintegerity.py
