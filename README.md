@@ -1,45 +1,51 @@
 # IntegrityWatcher
 
-**File Integrity Monitoring Project**
+**File Integrity Monitoring Project with Email Alerts**
 
-IntegrityWatcher is a Python-based solution that empowers you to vigilantly monitor the integrity of files within a specified directory. By creating a baseline of file hashes, it continuously observes for unauthorized changes or new file creations.
+IntegrityWatcher is a Python-based solution designed for robust file integrity monitoring within a specified directory. This project empowers users to establish a secure baseline of file hashes, enabling continuous vigilance for unauthorized changes or new file creations. Notably, it includes features for SMTP email alerts and the ability to run as an executable on different systems.
 
 ## Project Overview
 
-File integrity monitoring is a cornerstone of cybersecurity. The IntegrityWatcher project offers the following capabilities:
+### Key Features
 
-- **Baseline Creation**: Establish a secure foundation by computing SHA-512 hashes for files in the "Files" directory.
-- **Continuous Monitoring**: Vigilantly oversee files for changes, new file additions, or deletions.
+- **Baseline Creation**: Compute SHA-512 hashes for files in the "Files" directory to establish a secure foundation.
+- **Continuous Monitoring**: Vigilantly observe files for changes, new additions, or deletions.
 - **Security Breach Detection**: Swiftly identify potential security breaches or unauthorized file modifications.
+- **SMTP Email Alerts**: Receive notifications via email for any unauthorized changes or new file additions.
+- **Executable Usage**: Convert the script to an executable for seamless deployment on various systems.
 
-## Key Features
+### Key Components
 
-- **calculate_file_hash**: A robust function for meticulously computing the SHA-512 hash of a file.
-- **erase_baseline_if_already_exists**: A safeguard for erasing an existing baseline, ensuring a fresh start if needed.
-- **User Interaction**: A user-friendly interface offering options to create a new baseline or monitor files using an existing one.
+1. **`calculate_file_hash(filepath)`**: Compute the SHA-512 hash of a file.
+2. **`erase_baseline_if_already_exists()`**: Safeguard to erase an existing baseline for a fresh start.
+3. **`log_change(action, file_path, username)`**: Log changes made to files, including action type, file path, and the user responsible.
+4. **`notify_server_mailtrap(action, file_path, username)`**: Send email alerts using the Mailtrap SMTP server to notify about file changes.
+5. **`get_username()`**: Retrieve the system user's username running the script.
 
 ## Usage
 
-Experience the power of IntegrityWatcher with these straightforward steps:
+1. Choose 'A' to create a new baseline or 'B' to begin monitoring with an existing one.
+2. Configure SMTP settings in `config.py` for email alerts.
+3. Run the script in your preferred environment:
 
-1. Choose 'A' to initiate the creation of a new baseline. This process computes file hashes and records them in `baseline.txt`.
-
-2. Opt for 'B' to begin monitoring. The script retrieves the baseline data from `baseline.txt` and promptly informs you of any file alterations or new additions in the "Files" directory.
-
+   ```bash
+   python fileintegerity.py
 ## Enhancing Cybersecurity
 
-IntegrityWatcher serves as a critical component of cybersecurity:
+IntegrityWatcher serves as a crucial component of cybersecurity, providing:
 
-- **Unauthorized Changes Detection**: Remain vigilant about system files to identify any unauthorized adjustments.
-- **Early Intrusion Detection**: Swiftly detect security breaches or unauthorized alterations.
-- **Compliance Assurance**: Align with security standards and regulations by preserving file integrity.
-- **Data Exfiltration Prevention**: Thwart unauthorized data access or exfiltration attempts.
-- **Logging and Alerting**: Generate logs and receive alerts about potential security incidents effortlessly.
-- **Forensic Analysis**: In the event of a security breach, leverage the baseline data and change history for comprehensive forensic analysis.
+- **Unauthorized Changes Detection:** Identify unauthorized adjustments to system files.
+- **Early Intrusion Detection:** Swiftly detect security breaches or unauthorized alterations.
+- **Compliance Assurance:** Align with security standards by preserving file integrity.
+- **Data Exfiltration Prevention:** Thwart unauthorized data access or exfiltration attempts.
+- **Logging and Alerting:** Generate logs and receive alerts about potential security incidents.
+- **Forensic Analysis:** Leverage baseline data and change history for comprehensive forensic analysis.
 
 ## Quick Start
 
-Run the Python script in your preferred environment. Ensure that you customize file paths as needed to suit your specific setup:
+Getting started with IntegrityWatcher is simple:
 
-```python
-fileintegerity.py
+1. Run the Python script in your preferred environment:
+
+   ```bash
+   python fileintegerity.py
