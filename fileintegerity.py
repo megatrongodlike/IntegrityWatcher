@@ -1,6 +1,9 @@
 import hashlib
 import os
 import time
+import getpass
+import smtplib
+from email.mime.text import MIMEText
 
 def calculate_file_hash(filepath):
     sha512 = hashlib.sha512()
@@ -15,6 +18,65 @@ def calculate_file_hash(filepath):
 def erase_baseline_if_already_exists():
     if os.path.exists('./baseline.txt'):
         os.remove('./baseline.txt')
+
+def log_change(action, file_path, username):
+    with open('./change_logs.txt', 'a') as log_file:
+        log_file.write(f"{time.ctime()} - {action}: {file_path} (User: {username})\n")
+
+def get_username():
+    try:
+        username = getpass.getuser()
+        return username
+    except Exception as e:
+        print(f"Error getting username: {e}")
+        return None
+
+def notify_server_mailtrap(action, file_path, username):
+    mailtrap_server = 'sandbox.smtp.mailtrap.io'
+    mailtrap_port = 2525
+    mailtrap_username = '6b7c09b1e85eda'
+    mailtrap_password = 'b0c987de2c8eac'
+
+    from_email = 'your_email@example.com'
+    to_email = 'recipient@example.com'
+
+    data = {
+        'action': action,
+        'file_path': file_path,
+        'username': username,
+    }
+
+    subject = f"[System Alert] File Change Notification - {action}: {file_path}"
+    body = f"""Dear {username},
+
+This is an automated notification from the [System Antivirus] to inform you of a recent change made to the file: {file_path}. The details of the change are as follows:
+
+Change Type: {action}
+Timestamp: {time.ctime()}
+User: {username}
+
+If you are aware of this change and have made it intentionally, you may disregard this message. However, if you did not make this change or are unsure of its origin, please investigate further to ensure the security and integrity of the system.
+
+For additional details or if you have any concerns, please contact our IT support team at [Support Email or Phone Number].
+
+Thank you for your attention to this matter.
+
+Best regards,
+[A]
+[Admin]
+"""
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = from_email
+    msg['To'] = to_email
+
+    try:
+        with smtplib.SMTP(mailtrap_server, mailtrap_port) as server:
+            server.login(mailtrap_username, mailtrap_password)
+            server.sendmail(from_email, [to_email], msg.as_string())
+            print(f"Notification email sent successfully: {data}")
+    except Exception as e:
+        print(f"Error sending notification email: {e}")
 
 print()
 print("What would you like to do?")
@@ -58,19 +120,25 @@ elif response == "B":
             # Notify if a new file has been created
             if file_path not in file_hash_dictionary:
                 print(f"{file_path} has been created!")
+                username = get_username()
+                log_change("File Created", file_path, username)
+                notify_server_mailtrap("File Created", file_path, username)
 
             # Notify if a file has been changed
             elif file_hash_dictionary[file_path] != file_hash:
                 print(f"{file_path} has changed!")
+                username = get_username()
+                log_change("File Changed", file_path, username)
+                notify_server_mailtrap("File Changed", file_path, username)
 
         # Check if any baseline files have been deleted
         for key in list(file_hash_dictionary.keys()):
             if not os.path.exists(key):
                 print(f"{key} has been deleted!")
+                username = get_username()
+                log_change("File Deleted", key, username)
+                notify_server_mailtrap("File Deleted", key, username)
                 del file_hash_dictionary[key]
-                
-for file_path in files:
-    print(f"Processing file: {file_path}")
-    file_hash = calculate_file_hash(file_path)
-    print(f"Hash of {file_path}: {file_hash}")
-               
+
+        # Update the file hash dictionary with the current hashes
+        file_hash_dictionary = {file_path: calculate_file_hash(file_path) for file_path in files}
